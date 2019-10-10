@@ -38,8 +38,7 @@ var circRadius;
 function crGet() {
   if (width <= 530) {
     circRadius = 5;
-  }
-  else {
+  } else {
     circRadius = 10;
   }
 }
@@ -185,7 +184,7 @@ function visualize(theData) {
     .attr("class", "d3-tip")
     .offset([40, -60])
     .html(function(d) {
-      console.log(d)
+      console.log(d);
       // x key
       var theX;
       // Grab the state name.
@@ -196,11 +195,11 @@ function visualize(theData) {
       if (curX === "poverty") {
         // Grab the x key and a version of the value formatted to show percentage
         theX = "<div>" + curX + ": " + d[curX] + "%</div>";
-      }
-      else {
+      } else {
         // Otherwise
         // Grab the x key and a version of the value formatted to include commas after every third digit.
-        theX = "<div>" +
+        theX =
+          "<div>" +
           curX +
           ": " +
           parseFloat(d[curX]).toLocaleString("en") +
@@ -221,12 +220,12 @@ function visualize(theData) {
   function xMinMax() {
     // min will grab the smallest datum from the selected column.
     xMin = d3.min(theData, function(d) {
-      return parseFloat(d[curX]) * 0.90;
+      return parseFloat(d[curX]) * 0.9;
     });
 
     // .max will grab the largest datum from the selected column.
     xMax = d3.max(theData, function(d) {
-      return parseFloat(d[curX]) * 1.10;
+      return parseFloat(d[curX]) * 1.1;
     });
   }
 
@@ -234,20 +233,19 @@ function visualize(theData) {
   function yMinMax() {
     // min will grab the smallest datum from the selected column.
     yMin = d3.min(theData, function(d) {
-      return parseFloat(d[curY]) * 0.90;
+      return parseFloat(d[curY]) * 0.9;
     });
 
     // .max will grab the largest datum from the selected column.
     yMax = d3.max(theData, function(d) {
-      return parseFloat(d[curY]) * 1.10;
+      return parseFloat(d[curY]) * 1.1;
     });
   }
 
   // c. change the classes (and appearance) of label text when clicked.
   function labelChange(axis, clickedText) {
     // Switch the currently active to inactive.
-    d3
-      .selectAll(".aText")
+    d3.selectAll(".aText")
       .filter("." + axis)
       .filter(".active")
       .classed("active", false)
@@ -289,8 +287,7 @@ function visualize(theData) {
     if (width <= 500) {
       xAxis.ticks(5);
       yAxis.ticks(5);
-    }
-    else {
+    } else {
       xAxis.ticks(10);
       yAxis.ticks(10);
     }
@@ -312,7 +309,10 @@ function visualize(theData) {
     .attr("transform", "translate(" + (margin + labelArea) + ", 0)");
 
   // Now let's make a grouping for our dots and their labels.
-  var theCircles = svg.selectAll("g theCircles").data(theData).enter();
+  var theCircles = svg
+    .selectAll("g theCircles")
+    .data(theData)
+    .enter();
 
   // We append the circles for each row of data (or each state, in this case).
   theCircles
@@ -408,15 +408,18 @@ function visualize(theData) {
         xScale.domain([xMin, xMax]);
 
         // Now use a transition when we update the xAxis.
-        svg.select(".xAxis").transition().duration(300).call(xAxis);
+        svg
+          .select(".xAxis")
+          .transition()
+          .duration(300)
+          .call(xAxis);
 
         // With the axis changed, let's update the location of the state circles.
         d3.selectAll("circle").each(function() {
           // Each state circle gets a transition for it's new attribute.
           // This will lend the circle a motion tween
           // from it's original spot to the new location.
-          d3
-            .select(this)
+          d3.select(this)
             .transition()
             .attr("cx", function(d) {
               return xScale(d[curX]);
@@ -427,8 +430,7 @@ function visualize(theData) {
         // We need change the location of the state texts, too.
         d3.selectAll(".stateText").each(function() {
           // We give each state text the same motion tween as the matching circle.
-          d3
-            .select(this)
+          d3.select(this)
             .transition()
             .attr("dx", function(d) {
               return xScale(d[curX]);
@@ -438,8 +440,7 @@ function visualize(theData) {
 
         // Finally, change the classes of the last active label and the clicked label.
         labelChange(axis, self);
-      }
-      else {
+      } else {
         // When y is the saved axis, execute this:
         // Make curY the same as the data name.
         curY = name;
@@ -451,15 +452,18 @@ function visualize(theData) {
         yScale.domain([yMin, yMax]);
 
         // Update Y Axis
-        svg.select(".yAxis").transition().duration(300).call(yAxis);
+        svg
+          .select(".yAxis")
+          .transition()
+          .duration(300)
+          .call(yAxis);
 
         // With the axis changed, let's update the location of the state circles.
         d3.selectAll("circle").each(function() {
           // Each state circle gets a transition for it's new attribute.
           // This will lend the circle a motion tween
           // from it's original spot to the new location.
-          d3
-            .select(this)
+          d3.select(this)
             .transition()
             .attr("cy", function(d) {
               return yScale(d[curY]);
@@ -470,8 +474,7 @@ function visualize(theData) {
         // We need change the location of the state texts, too.
         d3.selectAll(".stateText").each(function() {
           // We give each state text the same motion tween as the matching circle.
-          d3
-            .select(this)
+          d3.select(this)
             .transition()
             .attr("dy", function(d) {
               return yScale(d[curY]) + circRadius / 3;
@@ -524,8 +527,7 @@ function visualize(theData) {
     crGet();
 
     // With the axis changed, let's update the location and radius of the state circles.
-    d3
-      .selectAll("circle")
+    d3.selectAll("circle")
       .attr("cy", function(d) {
         return yScale(d[curY]);
       })
@@ -537,8 +539,7 @@ function visualize(theData) {
       });
 
     // We need change the location and size of the state texts, too.
-    d3
-      .selectAll(".stateText")
+    d3.selectAll(".stateText")
       .attr("dy", function(d) {
         return yScale(d[curY]) + circRadius / 3;
       })
